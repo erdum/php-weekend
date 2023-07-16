@@ -1,0 +1,20 @@
+{
+    "name": "erdum/php-weekend",
+    "description": "A simple minimal set of functions provide you the ability to build API & web application with no setup time",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "PhpWeekend\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Erdum",
+            "email": "erdumadnan@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6"
+    }
+}
