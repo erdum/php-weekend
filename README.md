@@ -21,7 +21,7 @@ A simple minimal set of functions provide you the ability to build API & web app
 Install PHP-Weekend
 
 ```bash
-    composer require erdum/php-weekend
+composer require erdum/php-weekend
 ```
     
 ## Usage
