@@ -33,6 +33,8 @@ class App {
 
     public static function set_csrf()
     {
+        session_start();
+
         if (!isset($_SESSION["csrf"])) $_SESSION["csrf"] = bin2hex(random_bytes(50));
         
         return '<input type="hidden" name="csrf" value="' . $_SESSION["csrf"].'">';
@@ -40,6 +42,7 @@ class App {
 
     public static function is_csrf_valid()
     {
+        session_start();
         $request = get_request();
 
         return isset($_SESSION['csrf']) && isset($request['csrf'])
