@@ -2,7 +2,7 @@
 # PHP-Weekend
 
 A simple minimal set of functions provide you the ability to build API & web application with no setup time
-![PHP-Weekend](https://i.imgur.com/pLikazr.png)
+<img src="https://i.imgur.com/pLikazr.png" width="200" height="200" />
 
 ## Table of Contents
 
