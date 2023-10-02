@@ -1,7 +1,7 @@
 
 # PHP-Weekend
 
-A simple minimal set of functions provide you the ability to build API & web application with no setup time
+A simple minimal set of functions provide you the ability to build API & web application with no setup time <br>
 <img src="https://i.imgur.com/pLikazr.png" width="700" height="400" />
 
 ## Table of Contents
