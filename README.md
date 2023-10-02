@@ -2,8 +2,16 @@
 # PHP-Weekend
 
 A simple minimal set of functions provide you the ability to build API & web application with no setup time
+![PHP-Weekend](https://i.imgur.com/pLikazr.png)
 
+## Table of Contents
 
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Feedback](#feedback)
+- [Contributors](#contributors)
+- [License](#license)
 
 ## Features
 
@@ -161,5 +169,12 @@ Router::get('/', function() {
 
 If you have any feedback, please reach out to us at erdumadnan@gmail.com
 
+## Contributors
+
+<a href="https://github.com/erdum/php-weekend/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=erdum/php-weekend" />
+</a>
+
+## License
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
