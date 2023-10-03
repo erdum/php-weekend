@@ -7,7 +7,7 @@ class App {
     public static function get_request()
     {
         $request = !empty($_POST) ? $_POST : array();
-        $request = empty($_POST) && !empty($_GET) ? $_GET : array();
+        $request = empty($_POST) && !empty($_GET) ? $_GET : $request;
 
         return isset($_SERVER['CONTENT_TYPE']) && $_SERVER['CONTENT_TYPE'] == 'application/json'
             ? json_decode(file_get_contents('php://input'), true)
