@@ -27,10 +27,25 @@ A simple minimal set of functions provide you the ability to build API & web app
 
 ## Installation
 
-Install PHP-Weekend
+Install PHP-Weekend with composer
 
 ```bash
 composer require erdum/php-weekend
+```
+
+Or install without composer on older PHP versions just copy the src directory and require the App.php and Router.php
+```php
+<?php
+
+require(__DIR__ . '/src/App.php');
+require(__DIR__ . '/src/Router.php');
+
+use PhpWeekend\Router;
+use PhpWeekend\App;
+
+Router::get('/', function() {
+    App::send_json(array('data' => 'Hello, World!'));
+});
 ```
     
 ## Usage
