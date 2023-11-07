@@ -4,6 +4,13 @@ namespace PhpWeekend;
 
 class Router {
 
+  private static $prefix = '';
+
+  public static function set_router_prefix($prefix)
+  {
+    self::$prefix = $prefix;
+  }
+
   public static function get($route, $callback)
   {
     if ($_SERVER['REQUEST_METHOD'] == 'GET') self::route($route, $callback);
@@ -41,6 +48,7 @@ class Router {
     $request_url = strtok($request_url, '?');
     $route_parts = explode('/', $route);
     $request_url_parts = explode('/', $request_url);
+    $request_url_parts = array_diff($request_url_parts, explode('/', self::$prefix));
     array_shift($route_parts);
     array_shift($request_url_parts);
 
