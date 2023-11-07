@@ -23,7 +23,7 @@ class App {
         return exit(json_encode((object) $payload));
     }
 
-    public static function send_template($template, $data = [])
+    public static function send_template($template, $data = array())
     {
         $filename = strpos($template, '.php') == false ? $template . '.php' : $template;
         extract($data);
