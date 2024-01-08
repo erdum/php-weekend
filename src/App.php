@@ -48,6 +48,17 @@ class App {
         return exit($response);
     }
 
+    public static function send_file($filename)
+    {
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="' . basename($filename) . '"');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($filename));
+        readfile($filename);
+    }
+
     public static function set_csrf()
     {
         session_start();
