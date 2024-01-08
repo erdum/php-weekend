@@ -4,6 +4,12 @@ namespace PhpWeekend;
 
 class App {
 
+    protected static function send_status_code($code)
+    {
+        is_callable('http_send_status') ? http_send_status($code)
+            : header("HTTP/1.1 $code");
+    }
+
     public static function get_request()
     {
         $request = !empty($_POST) ? $_POST : array();
@@ -18,7 +24,7 @@ class App {
     {
         header('Access-Control-Allow-Origin: *');
         header('Content-Type: application/json');
-        is_callable('http_send_status') ? http_send_status($status_code) : header("HTTP/1.1 $status_code");
+        self::send_status_code($status_code);
 
         return exit(json_encode((object) $payload));
     }
