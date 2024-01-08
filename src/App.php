@@ -15,7 +15,8 @@ class App {
         $request = !empty($_POST) ? $_POST : array();
         $request = empty($_POST) && !empty($_GET) ? $_GET : $request;
 
-        return isset($_SERVER['CONTENT_TYPE']) && $_SERVER['CONTENT_TYPE'] == 'application/json'
+        return isset($_SERVER['CONTENT_TYPE'])
+            && $_SERVER['CONTENT_TYPE'] == 'application/json'
             ? json_decode(file_get_contents('php://input'), true)
             : $request;
     }
@@ -31,7 +32,8 @@ class App {
 
     public static function send_template($template, $data = array())
     {
-        $filename = strpos($template, '.php') == false ? $template . '.php' : $template;
+        $filename = strpos($template, '.php') == false ? $template . '.php'
+            : $template;
         extract($data);
         
         include(__DIR__ . '/../templates/' . $filename);
@@ -63,9 +65,11 @@ class App {
     {
         session_start();
 
-        if (!isset($_SESSION["csrf"])) $_SESSION["csrf"] = bin2hex(random_bytes(50));
+        if (!isset($_SESSION["csrf"]))
+            $_SESSION["csrf"] = bin2hex(random_bytes(50));
         
-        return '<input type="hidden" name="csrf" value="' . $_SESSION["csrf"].'">';
+        return '<input type="hidden" name="csrf" value="'
+            . $_SESSION["csrf"] . '">';
     }
 
     public static function is_csrf_valid()
