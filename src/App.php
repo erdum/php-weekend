@@ -37,6 +37,17 @@ class App {
         include(__DIR__ . '/../templates/' . $filename);
     }
 
+    public static function send_response(
+        $response,
+        $status_code = 200,
+        $content_type = 'text/html'
+    )
+    {
+        header('Content-Type: ' . $content_type);
+        self::send_status_code($status_code);
+        return exit($response);
+    }
+
     public static function set_csrf()
     {
         session_start();
