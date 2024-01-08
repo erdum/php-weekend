@@ -46,6 +46,14 @@ use PhpWeekend\App;
 Router::get('/', function() {
     App::send_json(array('data' => 'Hello, World!'));
 });
+
+Router::get('/simple', function() {
+    App::send_response('This is the content.', 200, 'text/html');
+});
+
+Router::get('/get_pdf', function() {
+    App::send_file(__DIR__ . '/static/my_file.pdf');
+});
 ```
     
 ## Usage
