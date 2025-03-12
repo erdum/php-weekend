@@ -4,81 +4,98 @@ namespace PhpWeekend;
 
 class Router {
 
-  private static $prefix = '';
+    private static $prefix = '';
 
-  public static function set_router_prefix($prefix)
-  {
-    self::$prefix = $prefix;
-  }
-
-  public static function get($route, $callback)
-  {
-    if ($_SERVER['REQUEST_METHOD'] == 'GET') self::route($route, $callback);
-  }
-
-  public static function post($route, $callback)
-  {
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') self::route($route, $callback);
-  }
-
-  public static function put($route, $callback)
-  {
-    if ($_SERVER['REQUEST_METHOD'] == 'PUT') self::route($route, $callback);
-  }
-
-  public static function patch($route, $callback)
-  {
-    if ($_SERVER['REQUEST_METHOD'] == 'PATCH') self::route($route, $callback);
-  }
-
-  public static function delete($route, $callback)
-  {
-    if ($_SERVER['REQUEST_METHOD'] == 'DELETE') self::route($route, $callback);
-  }
-
-  public static function any($route, $callback)
-  { 
-    self::route($route, $callback);
-  }
-
-  private static function route($route, $callback)
-  {
-    $request_url = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
-    $request_url = rtrim($request_url, '/');
-    $request_url = strtok($request_url, '?');
-    $route_parts = explode('/', $route);
-    $request_url_parts = explode('/', $request_url);
-    $request_url_parts = array_diff($request_url_parts, explode('/', self::$prefix));
-    array_shift($route_parts);
-    array_shift($request_url_parts);
-
-    if ($route_parts[0] == '' && count($request_url_parts) == 0) {
-      
-      // Callback function
-      if (is_callable($callback)) {
-        call_user_func_array($callback, array());
-        exit();
-      }
+    public static function set_router_prefix($prefix)
+    {
+        self::$prefix = rtrim($prefix, '/ ');
     }
 
-    if (count($route_parts) != count($request_url_parts)) return;
-    $parameters = array();
-
-    for($__i__ = 0; $__i__ < count($route_parts); $__i__++) {
-      $route_part = $route_parts[$__i__];
-
-      if (preg_match("/^[$]/", $route_part)) {
-        $route_part = ltrim($route_part, '$');
-        array_push($parameters, $request_url_parts[$__i__]);
-      } else if ($route_parts[$__i__] != $request_url_parts[$__i__]) {
-        return;
-      }
+    public static function get($route, $callback)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'GET'){
+            self::route($route, $callback);
+        }
     }
 
-    // Callback function
-    if (is_callable($callback)) {
-      call_user_func_array($callback, $parameters);
-      exit();
+    public static function post($route, $callback)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            self::route($route, $callback);
+        }
     }
-  }
+
+    public static function put($route, $callback)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
+            self::route($route, $callback);
+        }
+    }
+
+    public static function patch($route, $callback)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'PATCH') {
+            self::route($route, $callback);
+        }
+    }
+
+    public static function delete($route, $callback)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
+            self::route($route, $callback);
+        }
+    }
+
+    public static function any($route, $callback)
+    { 
+        self::route($route, $callback);
+    }
+
+    private static function route($route, $callback)
+    {
+        $request_url = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
+        $request_url = rtrim($request_url, '/ ');
+
+        // If request URL doesn't contain router prefix
+        if (
+            ! preg_match('/^'.preg_quote(self::$prefix, '/').'/', $request_url)
+        ) return;
+
+        $request_url = str_replace(self::$prefix, '', $request_url);
+        $request_url_parts = explode('/', $request_url);
+        array_shift($request_url_parts);
+
+        $route_url = rtrim($route, '/ ');
+        $route_url_parts = explode('/', $route_url);
+        array_shift($route_url_parts);
+
+        $route_params = array();
+
+        foreach ($route_url_parts as $index => $route_part) {
+
+            // Route part is a parameter
+            if (preg_match('/^\$/', $route_part)) {
+                $route_param = $request_url_parts[$index];
+
+                // Router parameter is optional
+                if (preg_match('/\?$/', $route_part)) {
+                    
+                    array_push($route_params, $route_param ?: null);
+                } else {
+                    
+                    if (empty($route_param)) return;
+                    array_push($route_params, $route_param);
+                }
+            } else {
+
+                // Request URL part doesn't match with route part
+                if ($route_part !== $request_url_parts[$index]) return;
+            }
+        }
+
+        if (is_callable($callback)) {
+            call_user_func_array($callback, $route_params);
+            exit();
+        }
+    }
 }
