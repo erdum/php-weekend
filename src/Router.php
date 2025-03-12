@@ -79,7 +79,8 @@ class Router {
 
                 // Router parameter is optional
                 if (preg_match('/\?$/', $route_part)) {
-                    
+
+                    if (empty($route_param)) unset($route_url_parts[$index]);
                     array_push($route_params, $route_param ?: null);
                 } else {
                     
@@ -92,6 +93,8 @@ class Router {
                 if ($route_part !== $request_url_parts[$index]) return;
             }
         }
+
+        if (count($request_url_parts) !== count($route_url_parts)) return;
 
         if (is_callable($callback)) {
             call_user_func_array($callback, $route_params);
