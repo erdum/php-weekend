@@ -80,4 +80,16 @@ class App {
         return isset($_SESSION['csrf']) && isset($request['csrf'])
             && $_SESSION['csrf'] == $request['csrf'];
     }
+
+    public static function handle_cors()
+    {
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+        header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+        header('Access-Control-Max-Age: 86400'); // 24 hours
+        
+        if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+            exit(0);
+        }
+    }
 }
